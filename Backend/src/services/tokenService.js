@@ -36,10 +36,12 @@ const sendTokenCookies = (res, user) => {
   const accessToken = generateAccessToken(user);
   const refreshToken = generateRefreshToken(user);
 
+  const isProd = config.NODE_ENV === 'production';
+
   const cookieOptions = {
     httpOnly: true,
-    secure: config.COOKIE_SECURE,
-    sameSite: config.NODE_ENV === 'production' ? 'none' : 'lax',
+    secure: isProd, // Must be true on HTTPS (Render)
+    sameSite: isProd ? 'none' : 'lax', // Must be 'none' for cross-domain cookies (vercel -> render)
   };
 
   // 15 minutes for access token
@@ -58,10 +60,12 @@ const sendTokenCookies = (res, user) => {
 };
 
 const clearTokenCookies = (res) => {
+  const isProd = config.NODE_ENV === 'production';
+
   const cookieOptions = {
     httpOnly: true,
-    secure: config.COOKIE_SECURE,
-    sameSite: config.NODE_ENV === 'production' ? 'none' : 'lax',
+    secure: isProd, // Must be true on HTTPS (Render)
+    sameSite: isProd ? 'none' : 'lax', // Must be 'none' for cross-domain cookies (vercel -> render)
   };
 
   res.clearCookie('accessToken', cookieOptions);

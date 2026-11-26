@@ -19,36 +19,47 @@ registerNotifier();
 
 const app = express();
 
-// Security HTTP headers
-app.use(helmet());
+// Set proxy trust for Render / Cloud reverse proxies (Crucial for secure cookies & IP detection)
+app.set('trust proxy', 1);
 
-// CORS Configuration
-const allowedOrigins = [
-  config.CLIENT_URL,
-  'https://resolvex-support-system.vercel.app',
-  'http://localhost:5173',
-  'http://127.0.0.1:5173',
-  'http://localhost:5000',
-  'http://127.0.0.1:5000',
-];
+// Security HTTP headers with cross-origin credentials allowance
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+  })
+);
 
-const corsOptions = {
-  origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps, curl, postman) or if in allowedOrigins
-    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
-      callback(null, true);
-    } else {
-      callback(null, false);
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
-  optionsSuccessStatus: 200, // Important for legacy browsers & preflight OPTIONS 200 OK
-};
+// Robust CORS Middleware for Cross-Domain production communication
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  
+  // Allow all *.vercel.app, localhost, and explicit origins with credentials
+  if (
+    !origin ||
+    origin.includes('vercel.app') ||
+    origin.includes('localhost') ||
+    origin.includes('127.0.0.1')
+  ) {
+    res.setHeader('Access-Control-Allow-Origin', origin || '*');
+  }
 
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // Handle preflight for all routes
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS'
+  );
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+
+  // Directly answer HTTP OPTIONS preflight with 200 OK
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  next();
+});
 
 // HTTP Logging (only enabled when DEBUG_HTTP=true or in specific troubleshooting)
 if (process.env.DEBUG_HTTP === 'true') {

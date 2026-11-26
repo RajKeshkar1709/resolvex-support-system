@@ -49,8 +49,9 @@ export const TicketProvider = ({ children }) => {
     setTicketError(null);
     try {
       const res = await axiosClient.get('/admin/tickets', { params });
-      setTickets(res.data.data || []);
-      if (res.data.pagination) setPagination(res.data.pagination);
+      const ticketsData = res.data?.data || res.data;
+      setTickets(Array.isArray(ticketsData) ? ticketsData : []);
+      if (res.data?.pagination) setPagination(res.data.pagination);
     } catch (err) {
       setTicketError(err.response?.data?.message || err.message);
     } finally {
@@ -233,7 +234,8 @@ export const TicketProvider = ({ children }) => {
     setAdminLoading(true);
     try {
       const res = await axiosClient.get('/admin/dashboard/stats');
-      setAdminStats(res.data.data);
+      const data = res.data?.data || res.data;
+      setAdminStats(data);
     } catch (err) {
       console.error(err);
     } finally {

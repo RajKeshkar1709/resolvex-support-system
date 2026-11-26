@@ -32,21 +32,23 @@ const allowedOrigins = [
   'http://127.0.0.1:5000',
 ];
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl, postman)
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('CORS policy: Not allowed by Access-Control-Allow-Origin'));
-      }
-    },
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  })
-);
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps, curl, postman) or if in allowedOrigins
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(null, false);
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  optionsSuccessStatus: 200, // Important for legacy browsers & preflight OPTIONS 200 OK
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Handle preflight for all routes
 
 // HTTP Logging (only enabled when DEBUG_HTTP=true or in specific troubleshooting)
 if (process.env.DEBUG_HTTP === 'true') {

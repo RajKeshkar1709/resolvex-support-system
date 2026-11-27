@@ -14,13 +14,13 @@ ResolveX is a production-grade, secure, full-stack Support Ticket Management Sys
 
 ### 🔑 Pre-Seeded Evaluation Credentials:
 
-Reviewers and evaluators can log in immediately with the pre-seeded Enterprise Administrator account or customer accounts:
+Reviewers and evaluators can log in immediately with the pre-seeded Enterprise Administrator account:
 
 | Role | Email | Password | Permissions |
 |---|---|---|---|
 | **Admin** | `admin@resolvex.com` | `Admin@123456` | Manage all tickets, transition status, escalate priority, assign support agents, view SLA analytics & global audit logs. |
-| **Customer (DevOps)** | `sarah.jenkins@fintechcloud.io` | `Sarah@123456` | Real-world ticket CRUD, status tracking, markdown descriptions, comments & discussion thread. |
-| **Customer (Engineering Lead)** | `arti@gmail.com` | User account | Ticket creation, priority review, and discussion history. |
+
+*Note: New customer accounts can also be created dynamically via the web app registration page (`/register`).*
 
 ---
 

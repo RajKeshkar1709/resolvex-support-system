@@ -4,14 +4,23 @@ ResolveX is a production-grade, secure, full-stack Support Ticket Management Sys
 
 ---
 
-## 🚀 Live Demo & Key Admin Credentials
+## 🚀 Live Deployments & Credentials
 
-Reviewers and evaluators can log in immediately with the pre-seeded Enterprise Administrator account:
+| Resource | Live URL | Description |
+|---|---|---|
+| **🌐 Production Web App (Frontend)** | [https://resolvex-support-system.vercel.app](https://resolvex-support-system.vercel.app) | Live React 18 SPA hosted on Vercel |
+| **⚡ Live API Server & Swagger Docs** | [https://resolvex-support-system.onrender.com/api-docs](https://resolvex-support-system.onrender.com/api-docs) | Interactive OpenAPI 3.0 Documentation hosted on Render |
+| **📦 GitHub Repository** | [https://github.com/RajKeshkar1709/resolvex-support-system](https://github.com/RajKeshkar1709/resolvex-support-system) | Source code repository |
+
+### 🔑 Pre-Seeded Evaluation Credentials:
+
+Reviewers and evaluators can log in immediately with the pre-seeded Enterprise Administrator account or customer accounts:
 
 | Role | Email | Password | Permissions |
 |---|---|---|---|
 | **Admin** | `admin@resolvex.com` | `Admin@123456` | Manage all tickets, transition status, escalate priority, assign support agents, view SLA analytics & global audit logs. |
-| **Customer** | Register via UI (`/register`) or use `sarah.jenkins@fintechcloud.io` / `Sarah@123456` | Full ticket CRUD, status tracking, markdown descriptions, comments & discussion thread. |
+| **Customer (DevOps)** | `sarah.jenkins@fintechcloud.io` | `Sarah@123456` | Real-world ticket CRUD, status tracking, markdown descriptions, comments & discussion thread. |
+| **Customer (Engineering Lead)** | `arti@gmail.com` | User account | Ticket creation, priority review, and discussion history. |
 
 ---
 
@@ -19,7 +28,8 @@ Reviewers and evaluators can log in immediately with the pre-seeded Enterprise A
 
 ResolveX includes built-in interactive **Swagger OpenAPI 3.0 Documentation**. You do not need to import Postman collections.
 
-* **Swagger UI URL:** `http://localhost:5000/api-docs`
+* **Live Cloud Swagger UI:** [https://resolvex-support-system.onrender.com/api-docs](https://resolvex-support-system.onrender.com/api-docs)
+* **Local Swagger UI:** `http://localhost:5000/api-docs`
 * **Features:**
   * Complete schemas for Authentication, Tickets, Comments, Notifications, and Admin Telemetry.
   * Pre-filled sample payloads for instant **"Try it out" ➡️ "Execute"**.
